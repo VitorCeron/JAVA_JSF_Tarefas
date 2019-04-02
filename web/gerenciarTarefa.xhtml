@@ -13,6 +13,7 @@
                 <p:commandButton value="Listar" action="#{tarefaBean.listar()}" update="@form"></p:commandButton>
             </p:toolbarGroup>
         </p:toolbar>
+        <p:messages showDetail="true"></p:messages>
         <p:fieldset legend="Tarefas">
             <p:panelGrid columns="2">
                 <h:outputLabel value="Titulo da Tarefa"></h:outputLabel>
@@ -34,6 +35,7 @@
                 </p:column>
                 <p:column headerText="Ações">
                     <p:commandButton value="Editar" action="#{tarefaBean.editar(tarefa)}" update="@form"></p:commandButton>
+                    <p:commandButton value="Excluir" action="#{tarefaBean.deletar(tarefa)}" update="@form"></p:commandButton>
                 </p:column>
             </p:dataTable>
         </p:fieldset>

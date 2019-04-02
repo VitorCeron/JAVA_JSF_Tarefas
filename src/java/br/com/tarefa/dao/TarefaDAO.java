@@ -7,6 +7,7 @@ package br.com.tarefa.dao;
 
 import br.com.tarefa.entidade.Tarefa;
 import br.com.tarefa.util.Conexao;
+import br.com.tarefa.util.exception.ErroSistema;
 import com.mysql.jdbc.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class TarefaDAO {
     
-    public void salvar(Tarefa tarefa){
+    public void salvar(Tarefa tarefa) throws ErroSistema{
         PreparedStatement ps = null;
         try {
             Connection conexao = Conexao.getConexao();
@@ -38,17 +39,28 @@ public class TarefaDAO {
             ps.execute();
             Conexao.fecharConexao();
         } catch (SQLException ex) {
-            Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ErroSistema("Erro ao salvar tarefa.", ex);
         } finally {
             try {
                 ps.close();
             } catch (SQLException ex) {
-                Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new ErroSistema("Erro ao fechar conexão.", ex);
             }
         }
     }
     
-    public List<Tarefa> buscar(){
+    public void deletar(Integer idTarefa) throws ErroSistema{
+        Connection conexao = Conexao.getConexao();
+        try {
+            PreparedStatement ps = (PreparedStatement) conexao.prepareStatement("DELETE FROM tarefa WHERE idTarefa = ?");
+            ps.setInt(1, idTarefa);
+            ps.execute();
+        } catch (SQLException ex) {
+            throw new ErroSistema("Erro ao deletar tarefa.", ex);
+        }
+    }
+    
+    public List<Tarefa> buscar() throws ErroSistema{
         Connection conexao = Conexao.getConexao();
         try {
             PreparedStatement ps = (PreparedStatement) conexao.prepareStatement("SELECT * FROM tarefa");
@@ -61,10 +73,10 @@ public class TarefaDAO {
                 tarefa.setDescricaoTarefa(resultSet.getString("descricaoTarefa"));
                 tarefas.add(tarefa);
             }
+            Conexao.fecharConexao();
             return tarefas;
         } catch (SQLException ex) {
-            Logger.getLogger(TarefaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            throw new ErroSistema("Não foi possível localizar dados de tarefas.", ex);
         }
     }
     

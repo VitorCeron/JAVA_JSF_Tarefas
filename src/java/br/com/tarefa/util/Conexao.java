@@ -1,10 +1,9 @@
 package br.com.tarefa.util;
 
+import br.com.tarefa.util.exception.ErroSistema;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -17,7 +16,7 @@ public class Conexao {
     private static final String USUARIO = "root";
     private static final String SENHA = null;
     
-    public static Connection getConexao(){
+    public static Connection getConexao() throws ErroSistema{
         
         if( conexao == null ){
             try {
@@ -25,23 +24,23 @@ public class Conexao {
                 try {
                     conexao = DriverManager.getConnection(URL_CONEXAO, USUARIO, SENHA);
                 } catch (SQLException ex) {
-                    Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+                    throw new ErroSistema("Não foi possível conectar ao banco de dados.", ex);
                 }
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+                throw new ErroSistema("Não foi possível localizar o driver do banco de dados.", ex);
             }
         }
         return conexao;
         
     }
     
-    public static void fecharConexao(){
+    public static void fecharConexao() throws ErroSistema{
         if( conexao != null ){
             try {
                 conexao.close();
                 conexao = null;
             } catch (SQLException ex) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+                throw new ErroSistema("Não foi possível fechar a conexão com o banco de dados.", ex);
             }
         }
     }
