@@ -1,5 +1,6 @@
 
 package br.com.tarefa.bean;
+import br.com.tarefa.dao.TarefaDAO;
 import br.com.tarefa.entidade.Tarefa;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class TarefaBean {
     
     public void adicionar(){
         tarefas.add(tarefa);
+        new TarefaDAO().salvar(tarefa);
         tarefa = new Tarefa();
     }
 
