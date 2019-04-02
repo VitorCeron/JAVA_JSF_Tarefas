@@ -17,11 +17,19 @@ public class TarefaBean {
 
     private Tarefa tarefa = new Tarefa();
     private List<Tarefa> tarefas = new ArrayList<>();
+    private TarefaDAO tarefaDAO = new TarefaDAO();
     
     public void adicionar(){
-        tarefas.add(tarefa);
-        new TarefaDAO().salvar(tarefa);
+        tarefaDAO.salvar(tarefa);
         tarefa = new Tarefa();
+    }
+    
+    public void listar(){
+        tarefas = tarefaDAO.buscar();
+    }
+    
+    public void editar(Tarefa t){
+        tarefa = t;
     }
 
     public Tarefa getTarefa() {

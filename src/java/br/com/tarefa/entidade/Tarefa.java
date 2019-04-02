@@ -8,15 +8,15 @@ import java.util.Objects;
  */
 public class Tarefa {
     
-    private String idTarefa;
+    private Integer idTarefa;
     private String tituloTarefa;
     private String descricaoTarefa;
 
-    public String getIdTarefa() {
+    public Integer getIdTarefa() {
         return idTarefa;
     }
 
-    public void setIdTarefa(String idTarefa) {
+    public void setIdTarefa(Integer idTarefa) {
         this.idTarefa = idTarefa;
     }
 

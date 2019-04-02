@@ -9,7 +9,8 @@
     <h:form>
         <p:toolbar>
             <p:toolbarGroup>
-                <p:commandButton value="Adicionar" action="#{tarefaBean.adicionar()}" update="@form"></p:commandButton>
+                <p:commandButton value="Salvar" action="#{tarefaBean.adicionar()}" update="@form"></p:commandButton>
+                <p:commandButton value="Listar" action="#{tarefaBean.listar()}" update="@form"></p:commandButton>
             </p:toolbarGroup>
         </p:toolbar>
         <p:fieldset legend="Tarefas">
@@ -30,6 +31,9 @@
                 </p:column>
                 <p:column headerText="Descrição">
                     <h:outputText value="#{tarefa.descricaoTarefa}"></h:outputText>
+                </p:column>
+                <p:column headerText="Ações">
+                    <p:commandButton value="Editar" action="#{tarefaBean.editar(tarefa)}" update="@form"></p:commandButton>
                 </p:column>
             </p:dataTable>
         </p:fieldset>
